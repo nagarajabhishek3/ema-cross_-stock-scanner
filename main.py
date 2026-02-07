@@ -38,10 +38,10 @@ def calculate_return(entry_price, future_price):
     return round((future_price - entry_price) / entry_price * 100, 2)
 
 # -------- SCANNER ----------
+
 def scan_market(sheet, existing_df):
 
     today = datetime.today().date()
-
     triggered_today = []
 
     for ticker in symbols:
@@ -52,10 +52,20 @@ def scan_market(sheet, existing_df):
             if len(df) < 220:
                 continue
 
-            if check_criteria(df):
+            # ---- 3 MONTH COOL-OFF CHECK ----
+            if not existing_df.empty:
+                past_entries = existing_df[existing_df["Ticker"] == ticker]
 
-                if ticker in existing_df["Ticker"].values:
-                    continue
+                if not past_entries.empty:
+                    last_trigger_date = pd.to_datetime(
+                        past_entries["Trigger Date"].max()
+                    ).date()
+
+                    if (today - last_trigger_date).days < 90:
+                        continue  # Skip this ticker
+
+            # ---- CRITERIA CHECK ----
+            if check_criteria(df):
 
                 trigger_price = df["Close"].iloc[-1]
 
