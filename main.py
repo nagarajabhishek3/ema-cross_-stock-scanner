@@ -16,7 +16,6 @@ from sheets_utils import connect_sheet, get_sheet_df, append_row
 
 # -------- LOAD NIFTY 500 ----------
 symbols = pd.read_csv("nifty500.csv")["Symbol"].tolist()
-symbols = [s + ".NS" for s in symbols]
 
 # -------- CRITERIA FUNCTION ----------
 def check_criteria(df):
