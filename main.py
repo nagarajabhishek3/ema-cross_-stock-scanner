@@ -125,10 +125,9 @@ if __name__ == "__main__":
 
     sheet = connect_sheet()
 
-    try:
-        df_sheet = get_sheet_df(sheet)
-    except:
-        # First run header
+    df_sheet = get_sheet_df(sheet)
+
+    if df_sheet.empty:
         sheet.append_row([
             "Ticker", "Trigger Date", "Trigger Price",
             "D+5 Return", "D+10 Return",
@@ -136,6 +135,7 @@ if __name__ == "__main__":
             "Status", "Last Updated"
         ])
         df_sheet = get_sheet_df(sheet)
+
 
     scan_market(sheet, df_sheet)
     df_sheet = get_sheet_df(sheet)
