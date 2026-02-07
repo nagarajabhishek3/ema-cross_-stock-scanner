@@ -15,7 +15,9 @@ from telegram_utils import send_telegram_alert
 from sheets_utils import connect_sheet, get_sheet_df, append_row
 
 # -------- LOAD NIFTY 500 ----------
-symbols = symbols = pd.read_csv("nifty500.csv", encoding="latin1")["Symbol"].tolist()
+df_symbols = pd.read_csv("nifty500.csv", encoding="utf-8")
+symbols = df_symbols.iloc[:, 0].astype(str).str.strip().dropna().tolist()
+
 
 # -------- CRITERIA FUNCTION ----------
 def check_criteria(df):
