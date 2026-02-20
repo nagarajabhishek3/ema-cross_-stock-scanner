@@ -21,7 +21,7 @@ symbols = df_symbols.iloc[:, 0].astype(str).str.strip().dropna().tolist()
 
 # -------- CRITERIA FUNCTION ----------
 def check_criteria(df):
-    df["EMA200"] = df["Close"].ewm(span=200).mean()
+    df["EMA100"] = df["Close"].ewm(span=100).mean()
     df["Vol_Avg20"] = df["Volume"].rolling(20).mean()
 
     latest = df.iloc[-1]
@@ -29,7 +29,7 @@ def check_criteria(df):
 
     cond1 = (latest["Close"] - prev["Close"]) / prev["Close"] >= 0.05
     cond2 = latest["Volume"] > latest["Vol_Avg20"]
-    cond3 = latest["Close"] > latest["EMA200"]
+    cond3 = latest["Close"] > latest["EMA100"]
 
     return cond1 and cond2 and cond3
 
