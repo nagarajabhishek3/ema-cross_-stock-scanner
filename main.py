@@ -52,6 +52,10 @@ def scan_market(sheet, existing_df):
             if len(df) < 220:
                 continue
 
+            if df.empty:
+                print("No data for", ticker)
+                continue
+
             # ---- 3 MONTH COOL-OFF CHECK ----
             if not existing_df.empty:
                 past_entries = existing_df[existing_df["Ticker"] == ticker]
@@ -80,8 +84,8 @@ def scan_market(sheet, existing_df):
 
                 triggered_today.append(ticker)
 
-        except:
-            continue
+        except Exception as e:
+    print("Error for", ticker, ":", e)
 
     if triggered_today:
         msg = f"🚨 Nifty500 Breakout Alerts 🚨\n\n" + "\n".join(triggered_today)
