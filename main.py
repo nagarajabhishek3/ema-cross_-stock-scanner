@@ -85,7 +85,7 @@ def scan_market(sheet, existing_df):
                 triggered_today.append(ticker)
 
         except Exception as e:
-    print("Error for", ticker, ":", e)
+            print("Error for", ticker, ":", e)
 
     if triggered_today:
         msg = f"🚨 Nifty500 Breakout Alerts 🚨\n\n" + "\n".join(triggered_today)
